@@ -1,0 +1,27 @@
+<div *ngIf="error" class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+  {{error}}
+</div>
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Sign in with your Runnerbeans account</legend>
+    <div class="form-group">
+      <label for="email" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-10">
+        <input [(ngModel)]="loginCredentials.email" type="text" class="form-control" name="email" placeholder="Email" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password" class="col-lg-2 control-label">Password</label>
+      <div class="col-lg-10">
+        <input [(ngModel)]="loginCredentials.password" type="password" class="form-control" name="password" placeholder="Password" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="submit" class="btn btn-primary" (click)="submitLoginRequest()">Sign in</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
