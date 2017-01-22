@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{firstName}} {{lastname}}</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <tbody>
+          <tr>
+            <th>
+              Your Id:
+            </th>
+            <td>
+              {{userId}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Your Email:
+            </th>
+            <td>
+              {{userEmail}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Change your email:
+            </th>
+            <td *ngIf="editMode">
+              <form class="form-horizontal">
+                <fieldset>
+                    <div class="col-lg-10">
+                      <input [(ngModel)]="user.email" type="text" class="form-control" placeholder="Email" name="email" required>
+                    </div>
+                    <div class="col-lg-10 col-lg-offset-2">
+                      <button type="submit" class="btn btn-primary" (click)="submitNewEmail(userId)">Update Email</button>
+                    </div>
+                </fieldset>
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Total Number of activity posts:
+            </th>
+            <td>
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-footer">
+        <button class="btn btn-primary" id="delete"(click)="changeEmail()">Edit Email</button>
+        <button class="btn btn-danger" id="delete"(click)="deleteUserAccount(userId)">Delete Account</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Http, Response} from "@angular/http";
-import {Login} from "../models/login";
-import {AuthenticationService} from '../services/authentication.services';
+import {Http, Response, RequestOptions, Headers} from '@angular/http';
+import { Router } from '@angular/router';
+import { Login } from '../models/login';
+import { AuthService } from '../services/auth.services';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,10 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private http : Http,
-    private authenticationService : AuthenticationService
-  ) { };
+    public router : Router,
+    public authService: AuthService
+  ) {};
+
   loginCredentials:Login =
   {
       email: '',
@@ -23,21 +26,31 @@ export class LoginComponent implements OnInit {
   };
 
   ngOnInit() {
-    // this.http.get('http://localhost:8000/login')
-    //   .subscribe( ( response : Response ) => {
-    //       console.log( response.json() );
-    //   } );
-    // this.authenticationService.logout();
+
   }
 
   submitLoginRequest() {
-    this.http.post('http://localhost:8000/login', this.loginCredentials)
+    let headers = new Headers();
+    let authorizationHeader = 'Basic ' + btoa(this.loginCredentials.email 
+        + ':' + this.loginCredentials.password);
+    
+    headers.append('Authorization', authorizationHeader);
+    let options = new RequestOptions({headers: headers});
+
+    this.http.post('http://localhost:8000/login', this.loginCredentials, options)
       .subscribe( ( response : Response ) => {
-        //console.log( response.json() );
+        console.log(response.json());
+        localStorage.setItem('user', JSON.stringify(response.json().user));
+        this.authService.login().subscribe(() => {
+          if (this.authService.isLoggedIn) {
+            // Get the redirect URL from our auth service
+            // If no redirect has been set, use the default
+            let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/wall';
+            // Redirect the user
+            this.router.navigate([redirect]);
+          }
+        });
       });
-
-
-
   }
 
 }

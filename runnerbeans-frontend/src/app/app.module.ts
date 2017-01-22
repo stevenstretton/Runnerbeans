@@ -1,8 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { routes } from './app.router';
+import { FileSelectDirective } from 'ng2-file-upload';
+
+import { AuthGuard } from './services/authguard.services';
+import { AuthService } from './services/auth.services';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
@@ -11,7 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { Services } from './services/services.component';
 import { SignupComponent } from './signup/signup.component';
 import { WallComponent } from './wall/wall.component';
-import { AuthenticationService } from './services/authentication.services';
+import { AccountComponent } from './account/account.component';
 
 
 @NgModule({
@@ -22,10 +27,13 @@ import { AuthenticationService } from './services/authentication.services';
     LoginComponent,
     HomeComponent,
     SignupComponent,
-    WallComponent
+    WallComponent,
+    FileSelectDirective,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
     FormsModule,
@@ -33,7 +41,8 @@ import { AuthenticationService } from './services/authentication.services';
   ],
   providers: [
     Services,
-    AuthenticationService
+    AuthGuard,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
