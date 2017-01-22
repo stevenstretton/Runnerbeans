@@ -7,9 +7,12 @@ import { routes } from './app.router';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { Services } from './services/services.component';
+import { SignupComponent } from './signup/signup.component';
+import { WallComponent } from './wall/wall.component';
+import { AuthenticationService } from './services/authentication.services';
+
 
 @NgModule({
   declarations: [
@@ -17,16 +20,21 @@ import { Services } from './services/services.component';
     AppComponent,
     AboutComponent,
     LoginComponent,
+    HomeComponent,
     SignupComponent,
-    HomeComponent
+    WallComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    FormsModule,
     routes
   ],
-  providers: [Services],
+  providers: [
+    Services,
+    AuthenticationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
