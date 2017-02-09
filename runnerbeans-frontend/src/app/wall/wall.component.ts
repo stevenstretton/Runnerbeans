@@ -17,6 +17,8 @@ export class WallComponent implements OnInit {
   public firstName: String;
   public token = '';
   public results: any = [];
+  public lat: number = 51.678418;
+  public lng: number = 7.809007;
   public uploader:FileUploader = new FileUploader({
     url: URL,
     isHTML5: true,

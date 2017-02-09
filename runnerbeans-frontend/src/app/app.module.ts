@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { routes } from './app.router';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 import { AuthGuard } from './services/authguard.services';
 import { AuthService } from './services/auth.services';
@@ -37,7 +38,10 @@ import { AccountComponent } from './account/account.component';
     FormsModule,
     HttpModule,
     FormsModule,
-    routes
+    routes,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAUIX8xD9U_R4AhXmWful7s2ZW5C4QmrNY'
+    })
   ],
   providers: [
     Services,

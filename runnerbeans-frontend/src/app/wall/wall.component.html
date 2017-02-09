@@ -158,6 +158,16 @@
                 {{result.time}} (hh:mm:ss)
               </td>
             </tr>
+            <tr>
+              <th>
+                Your fitness map:
+              </th>
+              <td>
+                <sebm-google-map [latitude]="lat" [longitude]="lng">
+                  <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+                </sebm-google-map>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
