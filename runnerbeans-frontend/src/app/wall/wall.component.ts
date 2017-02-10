@@ -79,25 +79,22 @@ export class WallComponent implements OnInit {
 
       this.http.get('http://localhost:8000/wall', options)
         .map(res => res.json())
-        .subscribe(posts => {
+        .subscribe(
+          posts => {
             this.results = posts
         });
   }
 
+  retreveGpxData()
+  {
+      let headers = new Headers();
+      headers.append('Authorization', this.token);
+      let options = new RequestOptions({headers: headers});
 
-  // editFitnessResult()
-  // {
-  //   let headers = new Headers();
-  //   headers.append('Authorization', this.token);
-  //   let options = new RequestOptions({headers: headers});
-  //
-  //   this.sport.email = this.userEmail;
-  //
-  //   this.http.post('http://localhost:8000/wall/edit/', this.sport, options)
-  //     .subscribe( ( response : Response ) => {
-  //       this.results.update(this.sport);
-  //     } );
-  // }
+      this.http.post('http://localhost:8000/wall/gpx', options)
+        .map(res => res.json())
+        .subscribe();
+  }
 
   deleteFitnessResult(id: string)
   {

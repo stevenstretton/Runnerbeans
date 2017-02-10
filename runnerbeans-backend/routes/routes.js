@@ -4,6 +4,7 @@ var mongo = require('mongodb');
 var assert = require('assert');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+var gpxParse = require("gpx-parse");
 
 var url = 'mongodb://localhost:27017/runnerbean';
 var MongoClient = mongo.MongoClient;
@@ -14,8 +15,6 @@ var fs = require('fs');
 var DIR = './uploads';
 var upload = multer({dest: DIR});
 
-
-// https://www.youtube.com/watch?v=bf8L9tQi_MQ&list=PL55RiY5tL51oGJorjEgl6NVeDbx_fO5jR&index=
 
 //http://expressjs.com/en/guide/using-middleware.html
 
@@ -131,6 +130,7 @@ router.use(function (req, res, next) {
 router.post('/wall', function(req, res, next) {
 
     console.log("Adding new results");
+    
     var newSport = req.body;
 
     MongoClient.connect(url, function (err, db) {
@@ -159,6 +159,7 @@ router.get('/wall', function(req, res, next) {
         console.log('Fitness results found in Mongo :D');
         db.close();
     });
+
 });
 
 router.delete('/wall/delete/:id', function(req, res, next) {
@@ -171,6 +172,24 @@ router.delete('/wall/delete/:id', function(req, res, next) {
             res.json(doc);
         });
 
+        db.close();
+    });
+});
+
+router.post('/wall/comment/:id', function(req, res, next) {
+
+    console.log("Posting new comment");
+
+    var newComment = req.body;
+
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('fitness-results').insertOne(newSport, function (err, result) {
+            assert.equal(null, err);
+            console.log('Sport added to Mongo');
+            db.close();
+            res.json(newSport);
+        });
         db.close();
     });
 });
@@ -210,5 +229,12 @@ router.post('/account/edit/:id', function(req, res, next) {
     });
 });
 
+//Fetch GPX Data
+router.get('/wall/gpx', function (req, res, next) {
+    gpxParse.parseGpxFromFile('./gpx/route.gpx', function(error, data) {
+        console.log("DATA::" + data);
+        res.json(data);
+    });
+});
 
 module.exports = router;

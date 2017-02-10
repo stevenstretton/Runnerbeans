@@ -106,17 +106,6 @@
                         (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
                   <span class="glyphicon glyphicon-trash"></span> Remove all
                 </button>
-
-
-
-
-
-
-
-
-
-
-
               </div>
             </div>
             <div class="form-group">
@@ -147,7 +136,7 @@
                 Distance
               </th>
               <td>
-                {{result.distance}} (Kiloliters)
+                {{result.distance}} (Kilometres)
               </td>
             </tr>
             <tr>
@@ -164,8 +153,26 @@
               </th>
               <td>
                 <sebm-google-map [latitude]="lat" [longitude]="lng">
-                  <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+                  <sebm-google-map-polyline>
+                    <sebm-google-map-polyline-point [latitude]="51.678418" [longitude]="7.809007">
+                    </sebm-google-map-polyline-point>
+                    <sebm-google-map-polyline-point [latitude]="51.678500" [longitude]="7.80933">
+                    </sebm-google-map-polyline-point>
+                  </sebm-google-map-polyline>
                 </sebm-google-map>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                Comments:
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Post comment">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Post</button>
+                    </span>
+                </div>
               </td>
             </tr>
           </tbody>
