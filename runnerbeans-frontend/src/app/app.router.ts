@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { WallComponent } from './wall/wall.component';
 import { AccountComponent } from './account/account.component';
+import { SportComponent } from './sport/sport.component';
 
 export const router: Routes = [
   //all the routes are shown here, this directs the path to each of the component
@@ -23,7 +24,8 @@ export const router: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'wall', component: WallComponent, canActivate: [AuthGuard] },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignupComponent}
+  { path: 'signup', component: SignupComponent },
+  { path: 'sport', component: SportComponent, canActivate: [AuthGuard] }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

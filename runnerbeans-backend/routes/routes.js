@@ -125,9 +125,9 @@ router.use(function (req, res, next) {
 
 });
 
-//WALL
+//SPORT
 
-router.post('/wall', function(req, res, next) {
+router.post('/sport', function(req, res, next) {
 
     console.log("Adding new results");
     
@@ -144,6 +144,8 @@ router.post('/wall', function(req, res, next) {
         db.close();
     });
 });
+
+//WALL
 
 router.get('/wall', function(req, res, next) {
 
@@ -194,6 +196,42 @@ router.post('/wall/comment/:id', function(req, res, next) {
     });
 });
 
+router.post('/wall/comment/:id', function(req, res, next) {
+
+    console.log("posting comment");
+    var comment = req.body.comment;
+
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('fitness-results').update({
+            _id: new mongo.ObjectID(req.params.id)
+        },{
+            $set: { email: comment }
+        }, function (err, doc) {
+            res.json(doc);
+        });
+        db.close();
+    });
+});
+
+router.post('/wall/wow/:id', function(req, res, next) {
+
+    console.log("adding wow");
+    var addWow = req.body.wow;
+
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('fitness-results').update({
+            _id: new mongo.ObjectID(req.params.id)
+        },{
+            $inc: { wow: '1' }
+        }, function (err, doc) {
+            res.json(doc);
+        });
+        db.close();
+    });
+});
+
 //USER ACCOUNT
 
 
@@ -227,6 +265,21 @@ router.post('/account/edit/:id', function(req, res, next) {
         });
         db.close();
     });
+});
+
+router.get('/account/users', function(req, res, next) {
+
+    MongoClient.connect(url, function (err, db) {
+        var col = db.collection('user-accounts');
+        col.find({
+            'email': { $ne: currentAccountEmail }
+        }).toArray(function (err, docs) {
+            res.json(docs);
+        });
+        console.log('User results found in Mongo :D');
+        db.close();
+    });
+
 });
 
 //Fetch GPX Data

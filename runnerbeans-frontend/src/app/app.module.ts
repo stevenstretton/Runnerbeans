@@ -18,6 +18,7 @@ import { Services } from './services/services.component';
 import { SignupComponent } from './signup/signup.component';
 import { WallComponent } from './wall/wall.component';
 import { AccountComponent } from './account/account.component';
+import { SportComponent } from './sport/sport.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AccountComponent } from './account/account.component';
     SignupComponent,
     WallComponent,
     FileSelectDirective,
-    AccountComponent
+    AccountComponent,
+    SportComponent
   ],
   imports: [
     BrowserModule,

@@ -1,125 +1,11 @@
 <p>Hello {{firstName}}</p>
 <p>{{userEmail}}</p>
-<div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Add your fitness results here!</h3>
-      </div>
-      <div class="panel-body">
-        <form class="form-horizontal">
-          <fieldset>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="sport.type">What Sport have you done?</label>
-              <div class="col-md-8">
-                <select [(ngModel)]="sport.activity" class="form-control" id="sport.type" name="sport.type">
-                  <option>Running</option>
-                  <option>Cycling</option>
-                  <option>Ride</option>
-                  <option>Swim</option>
-                  <option>Hike</option>
-                  <option>Ski</option>
-                  <option>Canoeing</option>
-                  <option>Ice Skating</option>
-                  <option>Snowboarding</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="sport.distance">What was your distance?</label>
-              <div class="col-md-5">
-                <div class="input-group">
-                  <input [(ngModel)]="sport.distance" id="sport.distance" name="sport.distance" class="form-control" placeholder="e.g. 10" type="text" required="">
-                  <span class="input-group-addon">kilometres </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="sport.time">How long did it take?</label>
-              <div class="col-md-5">
-                <div class="input-group">
-                  <input [(ngModel)]="sport.time" id="sport.time" name="sport.time" class="form-control" placeholder="e.g. 00:25:10" type="text" required="">
-                  <span class="input-group-addon">hh:mm:ss</span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="sport.time">Upload your .gpx here!</label>
-              <div class="col-md-5">
-                <input type="file" ng2FileSelect [uploader]="uploader" />
-
-
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th width="50%">Name</th>
-                    <th>Size</th>
-                    <th>Progress</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let item of uploader.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td *ngIf="uploader.isHTML5">
-                      <div class="progress" style="margin-bottom: 0;">
-                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                      <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                      <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>
-                    <td nowrap>
-                      <button type="button" class="btn btn-success btn-xs"
-                              (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                        <span class="glyphicon glyphicon-upload"></span> Upload
-                      </button>
-                      <button type="button" class="btn btn-warning btn-xs"
-                              (click)="item.cancel()" [disabled]="!item.isUploading">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs"
-                              (click)="item.remove()">
-                        <span class="glyphicon glyphicon-trash"></span> Remove
-                      </button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-                <div class="progress" style="">
-                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                </div>
-                <button type="button" class="btn btn-success btn-s"
-                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                  <span class="glyphicon glyphicon-upload"></span> Upload all
-                </button>
-                <button type="button" class="btn btn-warning btn-s"
-                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                  <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                </button>
-                <button type="button" class="btn btn-danger btn-s"
-                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                  <span class="glyphicon glyphicon-trash"></span> Remove all
-                </button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="submit">All done?</label>
-              <div class="col-md-4">
-                <button id="submit" name="submit" class="btn btn-success" (click)="sendFitnessResult()">Add my Results!</button>
-              </div>
-            </div>
-          </fieldset>
-        </form>
-      </div>
-    </div>
+<div class="col-md-2"></div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    Got your results ready? Add them here:
+    <p><a class="btn btn-primary btn-lg" routerLink="/sport" role="button">Add sport</a></p>
   </div>
-  <div class="col-md-2"></div>
 </div>
 <div *ngFor="let result of results.reverse()" class="row">
   <div class="col-md-2"></div>
@@ -164,6 +50,14 @@
             </tr>
             <tr>
               <th>
+                Wows
+              </th>
+              <td>
+                {{result.wow}}
+              </td>
+            </tr>
+            <tr>
+              <th>
                 Comments:
               </th>
               <td>
@@ -180,6 +74,7 @@
       </div>
       <div class="panel-footer">
         <button class="btn btn-danger" id="delete"(click)="deleteFitnessResult(result._id)">Delete</button>
+        <button class="btn btn-success" id="wow"(click)="addWow(result._id)">Wow</button>
       </div>
     </div>
   </div>

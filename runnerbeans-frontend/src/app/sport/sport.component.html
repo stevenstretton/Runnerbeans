@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add your fitness results here!</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="sport.type">What Sport have you done?</label>
+              <div class="col-md-8">
+                <select [(ngModel)]="sport.activity" class="form-control" id="sport.type" name="sport.type">
+                  <option>Running</option>
+                  <option>Cycling</option>
+                  <option>Ride</option>
+                  <option>Swim</option>
+                  <option>Hike</option>
+                  <option>Ski</option>
+                  <option>Canoeing</option>
+                  <option>Ice Skating</option>
+                  <option>Snowboarding</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="sport.distance">What was your distance?</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input [(ngModel)]="sport.distance" id="sport.distance" name="sport.distance" class="form-control" placeholder="e.g. 10" type="text" required="">
+                  <span class="input-group-addon">kilometres </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="sport.time">How long did it take?</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input [(ngModel)]="sport.time" id="sport.time" name="sport.time" class="form-control" placeholder="e.g. 00:25:10" type="text" required="">
+                  <span class="input-group-addon">hh:mm:ss</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="sport.time">Upload your .gpx here!</label>
+              <div class="col-md-5">
+                <input type="file" ng2FileSelect [uploader]="uploader" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="submit">All done?</label>
+              <div class="col-md-4">
+                <button id="submit" name="submit" class="btn btn-success" (click)="sendFitnessResult()">Add my Results!</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

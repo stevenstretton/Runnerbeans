@@ -15,6 +15,7 @@ export class AccountComponent implements OnInit {
   public userEmail: String;
   public firstName: String;
   public lastname: String;
+  public members: any = [];
   public token = '';
   public editMode: boolean;
 
@@ -33,6 +34,8 @@ export class AccountComponent implements OnInit {
       this.lastname = user.surname;
       this.userEmail = user.email;
       this.token = user.token;
+
+      this.retreveUsers();
     }
   }
 
@@ -77,5 +80,19 @@ export class AccountComponent implements OnInit {
       console.log("id=" + id);
   }
 
+  retreveUsers()
+  {
+    let headers = new Headers();
+    headers.append('Authorization', this.token);
+    let options = new RequestOptions({headers: headers});
+
+    this.http.get('http://localhost:8000/account/users', options)
+      .map(res => res.json())
+      .subscribe(
+        posts => {
+          this.members = posts
+        });
+  }
+  
 
 }

@@ -6,6 +6,7 @@ export class Sport
   activity: String;
   distance: String;
   time: String;
+  wow: String;
   userEmail: String;
   userId: String;
 }
