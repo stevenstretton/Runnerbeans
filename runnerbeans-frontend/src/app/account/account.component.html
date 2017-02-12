@@ -31,12 +31,12 @@
             <td *ngIf="editMode">
               <form class="form-horizontal">
                 <fieldset>
-                    <div class="col-lg-10">
-                      <input [(ngModel)]="user.email" type="text" class="form-control" placeholder="Email" name="email" required>
-                    </div>
-                    <div class="col-lg-10 col-lg-offset-2">
-                      <button type="submit" class="btn btn-primary" (click)="submitNewEmail(userId)">Update Email</button>
-                    </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Email">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Change Email</button>
+                    </span>
+                  </div>
                 </fieldset>
               </form>
             </td>
@@ -53,8 +53,8 @@
         </table>
       </div>
       <div class="panel-footer">
-        <button class="btn btn-primary" id="delete"(click)="changeEmail()">Edit Email</button>
-        <button class="btn btn-danger" id="delete"(click)="deleteUserAccount(userId)">Delete Account</button>
+        <button class="btn btn-primary" id="edit" (click)="changeEmail()">Edit Email</button>
+        <button class="btn btn-danger" id="delete" (click)="deleteUserAccount(userId)">Delete Account</button>
       </div>
     </div>
     <div class="panel panel-primary">
@@ -89,7 +89,7 @@
         </table>
       </div>
       <div class="panel-footer">
-        <button class="btn btn-primary" id="delete"(click)="displayOtherUsers()">Save Changes</button>
+        <button class="btn btn-primary" id="display" (click)="displayOtherUsers()">Save Changes</button>
       </div>
     </div>
   </div>
