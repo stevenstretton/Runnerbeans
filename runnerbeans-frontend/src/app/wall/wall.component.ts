@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Sport } from '../models/sport';
+import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
@@ -9,8 +10,10 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 })
 export class WallComponent implements OnInit {
 
-  public userId: String;
-  public userEmail: String;
+  public name: String;
+  public email: String;
+  public id: String;
+  
   public firstName: String;
   public token = '';
   public results: any = [];
@@ -18,7 +21,10 @@ export class WallComponent implements OnInit {
   public lng: number = 7.809007;
 
 
-  constructor(private http:Http) { }
+  constructor(
+    private http:Http,
+    public router: Router
+  ) { }
 
   ngOnInit() {
     //check if token exists here
@@ -26,9 +32,9 @@ export class WallComponent implements OnInit {
     if (localStorage.getItem("user") != null) {
       let user = JSON.parse(localStorage.getItem('user'));
       console.log("localstorage [user] :: " + user);
-      this.userId = user._id;
+      this.name = user._id;
       this.firstName = user.firstname;
-      this.userEmail = user.email;
+      this.email = user.email;
       this.token = user.token;
     }
     this.retrieveFitnessResults();
@@ -39,9 +45,12 @@ export class WallComponent implements OnInit {
       activity: '',
       distance: '',
       time: '',
-      wow: '',
-      userEmail: '',
-      userId: ''
+      wow: 0,
+      user: {
+        name: '',
+        email: '',
+        id: ''
+      }
   };
 
 
@@ -91,7 +100,7 @@ export class WallComponent implements OnInit {
 
     this.http.post('http://localhost:8000/wall/wow/'+id, this.sport, options)
       .subscribe( ( response : Response ) => {
-          this.results.update(this.sport);
+
       });
   }
 

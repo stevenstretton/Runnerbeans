@@ -93,6 +93,4 @@ export class AccountComponent implements OnInit {
           this.members = posts
         });
   }
-  
-
 }

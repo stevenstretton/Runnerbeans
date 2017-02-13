@@ -16,7 +16,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a routerLink="wall" *ngIf="authService.isLoggedIn">My Wall</a></li>
-        <li><a routerLink="sport" *ngIf="authService.isLoggedIn">Sport</a></li>
+        <li><a routerLink="sport" *ngIf="authService.isLoggedIn">Add Sport</a></li>
         <li><a routerLink="account" *ngIf="authService.isLoggedIn">My Account</a></li>
         <li><a (click)="submitLogoutRequest()" *ngIf="authService.isLoggedIn">Logout</a></li>
         <li><a routerLink="login" *ngIf="!authService.isLoggedIn">Login</a></li>

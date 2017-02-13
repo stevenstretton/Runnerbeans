@@ -154,7 +154,7 @@ router.get('/wall', function(req, res, next) {
         console.log('email: ' + currentAccountEmail);
 
         col.find({
-            'userEmail': currentAccountEmail
+            'user.email': currentAccountEmail
         }).toArray(function (err, docs) {
             res.json(docs);
         });
@@ -217,14 +217,14 @@ router.post('/wall/comment/:id', function(req, res, next) {
 router.post('/wall/wow/:id', function(req, res, next) {
 
     console.log("adding wow");
-    var addWow = req.body.wow;
+    //var addWow = req.body.wow;
 
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
         db.collection('fitness-results').update({
             _id: new mongo.ObjectID(req.params.id)
         },{
-            $inc: { wow: '1' }
+            $inc: { wow: 1 }
         }, function (err, doc) {
             res.json(doc);
         });
@@ -270,13 +270,12 @@ router.post('/account/edit/:id', function(req, res, next) {
 router.get('/account/users', function(req, res, next) {
 
     MongoClient.connect(url, function (err, db) {
-        var col = db.collection('user-accounts');
-        col.find({
+        var col = db.collection('fitness-results');
+        col.count({
             'email': { $ne: currentAccountEmail }
-        }).toArray(function (err, docs) {
-            res.json(docs);
         });
-        console.log('User results found in Mongo :D');
+        res.json(col);
+        console.log('count of results for ' + currentAccountEmail + ' complete');
         db.close();
     });
 

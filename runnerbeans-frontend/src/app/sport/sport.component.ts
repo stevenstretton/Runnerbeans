@@ -14,8 +14,9 @@ const URL = 'http://localhost:8000/wall/upload/';
 
 export class SportComponent implements OnInit {
 
-    public userId:String;
-    public userEmail:String;
+    public id:String;
+    public email:String;
+    public name:String;
     public firstName:String;
     public token = '';
     // public uploader:FileUploader = new FileUploader({
@@ -34,9 +35,9 @@ export class SportComponent implements OnInit {
       if (localStorage.getItem("user") != null) {
         let user = JSON.parse(localStorage.getItem('user'));
         console.log("localstorage [user] :: " + user);
-        this.userId = user._id;
-        this.firstName = user.firstname;
-        this.userEmail = user.email;
+        this.id = user._id;
+        this.name = user.firstname + ' ' + user.surname;
+        this.email = user.email;
         this.token = user.token;
       }
     }
@@ -46,9 +47,12 @@ export class SportComponent implements OnInit {
       activity: '',
       distance: '',
       time: '',
-      wow: '',
-      userEmail: '',
-      userId: ''
+      wow: 0,
+      user: {
+        name: '',
+        email: '',
+        id: ''
+      }
     };
 
     sendFitnessResult()
@@ -57,8 +61,9 @@ export class SportComponent implements OnInit {
       headers.append('Authorization', this.token);
       let options = new RequestOptions({headers: headers});
 
-      this.sport.userId = this.userId;
-      this.sport.userEmail = this.userEmail;
+      this.sport.user.id = this.id;
+      this.sport.user.name = this.name;
+      this.sport.user.email = this.email;
 
       this.http.post('http://localhost:8000/sport', this.sport, options) //correct token is being received!
         .subscribe((response:Response) => {

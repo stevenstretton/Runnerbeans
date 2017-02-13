@@ -57,41 +57,6 @@
         <button class="btn btn-danger" id="delete" (click)="deleteUserAccount(userId)">Delete Account</button>
       </div>
     </div>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Other Members</h3>
-      </div>
-      <div class="panel-body">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>
-              Firstname
-            </th>
-            <th>
-              Surname
-            </th>
-            <th>
-              Show Activity in Feed?
-            </th>
-          </thead>
-          <tbody *ngFor="let member of members.reverse()">
-            <td>
-              {{member.firstname}}
-            </td>
-            <td>
-              {{member.surname}}
-            </td>
-            <td>
-              <input type="checkbox" value="">
-            </td>
-          </tbody>
-        </table>
-      </div>
-      <div class="panel-footer">
-        <button class="btn btn-primary" id="display" (click)="displayOtherUsers()">Save Changes</button>
-      </div>
-    </div>
   </div>
   <div class="col-md-2"></div>
 </div>

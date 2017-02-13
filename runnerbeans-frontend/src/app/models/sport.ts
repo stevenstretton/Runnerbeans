@@ -3,10 +3,13 @@
  */
 export class Sport
 {
-  activity: String;
-  distance: String;
-  time: String;
-  wow: String;
-  userEmail: String;
-  userId: String;
+    activity: String;
+    distance: String;
+    time: String;
+    wow: Number;
+    user: {
+        name: String;
+        email: String;
+        id: String;
+    };
 }
