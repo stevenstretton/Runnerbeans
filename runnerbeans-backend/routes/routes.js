@@ -269,20 +269,6 @@ router.post('/account/edit/:id', function(req, res, next) {
     });
 });
 
-router.get('/account/users', function(req, res, next) {
-
-    MongoClient.connect(url, function (err, db) {
-        var col = db.collection('fitness-results');
-        col.count({
-            'email': { $ne: currentAccountEmail }
-        });
-        res.json(col);
-        console.log('count of results for ' + currentAccountEmail + ' complete');
-        db.close();
-    });
-
-});
-
 //Fetch GPX Data
 router.get('/wall/gpx', function (req, res, next) {
     gpxParse.parseGpxFromFile('./gpx/route.gpx', function(error, data) {
