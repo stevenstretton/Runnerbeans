@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.services';
 })
 export class LoginComponent implements OnInit {
 
+  private isBlank: boolean;
   error = "";
 
   constructor(
@@ -29,11 +30,25 @@ export class LoginComponent implements OnInit {
 
   }
 
+  checkValidation()
+  {
+    let email = this.loginCredentials.email;
+    let password  = this.loginCredentials.password;
+
+    if ((!email) && (!password)) {
+      this.isBlank = true;
+    } else {
+      this.isBlank = false;
+      this.submitLoginRequest();
+    }
+
+  }
+
   submitLoginRequest() {
     let headers = new Headers();
-    let authorizationHeader = 'Basic ' + btoa(this.loginCredentials.email 
+    let authorizationHeader = 'Basic ' + btoa(this.loginCredentials.email
         + ':' + this.loginCredentials.password);
-    
+
     headers.append('Authorization', authorizationHeader);
     let options = new RequestOptions({headers: headers});
 

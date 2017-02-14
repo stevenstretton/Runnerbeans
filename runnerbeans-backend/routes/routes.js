@@ -72,7 +72,6 @@ router.post('/login', function(req, res, next) {
             bcrypt.compare(loginPassword, doc.password, function (err, valid) {
                 //checks if the found passwords are correct
                 if (valid == true) {
-
                     //creates the web token -- https://github.com/auth0/node-jsonwebtoken
                     var token = jwt.sign(doc, 'cycling');
 
@@ -84,13 +83,16 @@ router.post('/login', function(req, res, next) {
                     res.json({
                         "user": doc
                     });
+                    console.log('User found from Mongo :D');
                 } else if (valid == false) {
+                    res.json({
+                        "login": "incorrect"
+                    });
                     console.log('incorrect password :(');
                 }
             });
 
         });
-        console.log('User found from Mongo :D');
         db.close();
     });
 

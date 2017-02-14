@@ -13,12 +13,12 @@ export class WallComponent implements OnInit {
   public name: String;
   public email: String;
   public id: String;
-  
+
   public firstName: String;
   public token = '';
   public results: any = [];
-  public lat: number = 51.678418;
-  public lng: number = 7.809007;
+  public lat: number = 53.379317;
+  public lng: number = -1.466548;
 
 
   constructor(
