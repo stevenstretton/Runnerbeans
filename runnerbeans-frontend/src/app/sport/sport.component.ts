@@ -67,10 +67,12 @@ export class SportComponent implements OnInit {
 
       this.http.post('http://localhost:8000/sport', this.sport, options) //correct token is being received!
         .subscribe((response:Response) => {
+          console.log(response);
           this.router.navigate(['/wall']);
         });
 
     }
+
 
 
 

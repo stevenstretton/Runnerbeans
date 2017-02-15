@@ -10,6 +10,7 @@
       </div>
       <div class="panel-footer">
         <a class="btn btn-primary btn-lg" routerLink="/sport" role="button">Add sport</a>
+        <a class="btn btn-info btn-lg" (click)="filerUsers()" role="button">{{filterState}}</a>
       </div>
     </div>
   </div>
@@ -47,11 +48,10 @@
                 Your fitness map:
               </th>
               <td>
-                <sebm-google-map [latitude]="lat" [longitude]="lng">
+                <sebm-google-map [latitude]="result.waypoints[0].lat" [longitude]="result.waypoints[0].lon" [zoom]="10">
                   <sebm-google-map-polyline>
-                    <sebm-google-map-polyline-point [latitude]="53.379317" [longitude]="-1.466548">
-                    </sebm-google-map-polyline-point>
-                    <sebm-google-map-polyline-point [latitude]="53.379349" [longitude]="-1.466621">
+                    <sebm-google-map-polyline-point *ngFor="let point of result.waypoints"
+                                                    [latitude]="point.lat" [longitude]="point.lon">
                     </sebm-google-map-polyline-point>
                   </sebm-google-map-polyline>
                 </sebm-google-map>

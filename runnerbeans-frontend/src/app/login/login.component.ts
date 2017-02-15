@@ -12,8 +12,7 @@ import { AuthService } from '../services/auth.services';
 export class LoginComponent implements OnInit {
 
   private isBlank: boolean;
-  error = "";
-
+  
   constructor(
     private http : Http,
     public router : Router,

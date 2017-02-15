@@ -67,31 +67,39 @@ router.post('/login', function(req, res, next) {
         col.findOne({
             'email': loginEmail
         }, function (err, doc) {
+            
+            if (!doc.password) {
+                
+                res.statusCode = 400;
+                res.statusText = 'Incorrect login credentials';
+                res.send({err:res.statusText},500);
+                
+            } else {
+                //checks if the password entered on the form matches to the account that is found
+                bcrypt.compare(loginPassword, doc.password, function (err, valid) {
+                    //checks if the found passwords are correct
+                    if (valid == true) {
+                        //creates the web token -- https://github.com/auth0/node-jsonwebtoken
+                        var token = jwt.sign(doc, 'cycling');
 
-            //checks if the password entered on the form matches to the account that is found
-            bcrypt.compare(loginPassword, doc.password, function (err, valid) {
-                //checks if the found passwords are correct
-                if (valid == true) {
-                    //creates the web token -- https://github.com/auth0/node-jsonwebtoken
-                    var token = jwt.sign(doc, 'cycling');
+                        //removes the password off the JSON
+                        delete doc.password;
+                        doc.token = token;
 
-                    //removes the password off the JSON
-                    delete doc.password;
-                    doc.token = token;
-
-                    //Sends the loaded account (without password) and token to the front end
-                    res.json({
-                        "user": doc
-                    });
-                    console.log('User found from Mongo :D');
-                } else if (valid == false) {
-                    res.json({
-                        "login": "incorrect"
-                    });
-                    console.log('incorrect password :(');
-                }
-            });
-
+                        //Sends the loaded account (without password) and token to the front end
+                        res.json({
+                            "user": doc
+                        });
+                        console.log('User found from Mongo :D');
+                    } else if (valid == false) {
+                        res.json({
+                            "login": "incorrect"
+                        });
+                        console.log('incorrect password :(');
+                    }
+                });
+            }
+            
         });
         db.close();
     });
@@ -118,7 +126,7 @@ router.use(function (req, res, next) {
     if(!token || !decoded) {
         console.log('token: '+ token);
         console.log('decoded: ' + decoded);
-        res.statusCode = 401; //keeps hitting here
+        res.statusCode = 401;
         res.send();
     } else {
         req.auth = decoded.data;
@@ -130,25 +138,39 @@ router.use(function (req, res, next) {
 //SPORT
 
 router.post('/sport', function(req, res, next) {
+    var gpxData;
 
-    console.log("Adding new results");
-    
-    var newSport = req.body;
-
-    MongoClient.connect(url, function (err, db) {
-        assert.equal(null, err);
-        db.collection('fitness-results').insertOne(newSport, function (err, result) {
-            assert.equal(null, err);
-            console.log('Sport added to Mongo');
-            db.close();
-            res.json(newSport);
-        });
-        db.close();
+        console.log("Adding new results");
+    gpxParse.parseGpxFromFile('./gpx/route.gpx', function(error, data){
+        if(error){
+            res.statusCode = 500;
+            res.statusText = 'Unable to parse gpx';
+            res.send({err:res.statusText},500);
+        }
+        else{
+            
+            gpxData = data;
+            
+            var newSport = req.body;
+            newSport.waypoints = gpxData.waypoints;
+        
+            MongoClient.connect(url, function (err, db) {
+                assert.equal(null, err);
+                db.collection('fitness-results').insertOne(newSport, function (err, result) {
+                    assert.equal(null, err);
+                    console.log('Sport added to Mongo');
+                    db.close();
+                    res.json(newSport);
+                });
+                db.close();
+            });
+        }
     });
 });
 
 //WALL
 
+//get the current logged in users results
 router.get('/wall', function(req, res, next) {
 
     MongoClient.connect(url, function (err, db) {
@@ -164,6 +186,45 @@ router.get('/wall', function(req, res, next) {
         db.close();
     });
 
+});
+
+//get every users results
+router.get('/wall/all', function(req, res, next) {
+
+    MongoClient.connect(url, function (err, db) {
+        var col = db.collection('fitness-results');
+        col.find({}).toArray(function (err, docs) {
+            res.json(docs);
+        });
+        console.log('All fitness results found in Mongo :D');
+        db.close();
+    });
+
+});
+
+//Post GPX Data
+router.post('/wall/gpx:id', function (req, res, next) {
+    gpxParse.parseGpxFromFile('./gpx/route.gpx', function(error, data) {
+        console.log("DATA::" + data);
+        if(data)
+        {
+            res.json(data);
+        }
+        else {
+            MongoClient.connect(url, function (err, db) {
+                assert.equal(null, err);
+                db.collection('fitness-results').update({
+                    _id: new mongo.ObjectID(req.params.id)
+                },{
+                    $set: {
+                        gpx: data
+                    }
+                });
+
+            })
+        }
+
+    });
 });
 
 router.delete('/wall/delete/:id', function(req, res, next) {
@@ -269,12 +330,5 @@ router.post('/account/edit/:id', function(req, res, next) {
     });
 });
 
-//Fetch GPX Data
-router.get('/wall/gpx', function (req, res, next) {
-    gpxParse.parseGpxFromFile('./gpx/route.gpx', function(error, data) {
-        console.log("DATA::" + data);
-        res.json(data);
-    });
-});
 
 module.exports = router;

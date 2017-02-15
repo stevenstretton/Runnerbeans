@@ -17,9 +17,9 @@ export class WallComponent implements OnInit {
   public firstName: String;
   public token = '';
   public results: any = [];
-  public lat: number = 53.379317;
-  public lng: number = -1.466548;
-
+  
+  public filterUser: Boolean;
+  public filterState: String;
 
   constructor(
     private http:Http,
@@ -36,6 +36,9 @@ export class WallComponent implements OnInit {
       this.firstName = user.firstname;
       this.email = user.email;
       this.token = user.token;
+      
+      this.filerUsers();
+      
     }
     this.retrieveFitnessResults();
   }
@@ -60,23 +63,24 @@ export class WallComponent implements OnInit {
       headers.append('Authorization', this.token);
       let options = new RequestOptions({headers: headers});
 
-      this.http.get('http://localhost:8000/wall', options)
-        .map(res => res.json())
-        .subscribe(
-          posts => {
-            this.results = posts
-        });
-  }
-
-  retreveGpxData()
-  {
-      let headers = new Headers();
-      headers.append('Authorization', this.token);
-      let options = new RequestOptions({headers: headers});
-
-      this.http.post('http://localhost:8000/wall/gpx', options)
-        .map(res => res.json())
-        .subscribe();
+      if (this.filterUser) {
+        this.http.get('http://localhost:8000/wall', options)
+          .map(res => res.json())
+          .subscribe(
+            posts => {
+              this.results = posts
+              console.log(this.results[0].waypoints[0]);
+            });
+      } else {
+        this.http.get('http://localhost:8000/wall/all', options)
+          .map(res => res.json())
+          .subscribe(
+            posts => {
+              this.results = posts
+              console.log(this.results[0].waypoints[0]);
+            });
+      }
+     
   }
 
   deleteFitnessResult(id: string)
@@ -94,15 +98,27 @@ export class WallComponent implements OnInit {
 
   addWow(id: string)
   {
-    let headers = new Headers();
-    headers.append('Authorization', this.token);
-    let options = new RequestOptions({headers: headers});
-
-    this.http.post('http://localhost:8000/wall/wow/'+id, this.sport, options)
-      .subscribe( ( response : Response ) => {
-
-      });
+      let headers = new Headers();
+      headers.append('Authorization', this.token);
+      let options = new RequestOptions({headers: headers});
+  
+      this.http.post('http://localhost:8000/wall/wow/'+id, this.sport, options)
+        .subscribe( ( response : Response ) => {
+  
+        });
   }
+  
+  filerUsers()
+  {
+      this.filterUser = !this.filterUser;
+    
+      if (this.filterUser) {
+          this.filterState = "Show Everyone "
+      } else {
+          this.filterState = "Just show " + this.firstName;
+      }
+  }
+  
 
   showUser()
   {
