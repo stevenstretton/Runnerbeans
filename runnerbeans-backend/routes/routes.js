@@ -10,6 +10,7 @@ var url = 'mongodb://localhost:27017/runnerbean';
 var MongoClient = mongo.MongoClient;
 var currentAccountEmail = '';
 
+//https://www.npmjs.com/package/multer
 var multer = require('multer');
 var fs = require('fs');
 var DIR = './uploads';
@@ -76,6 +77,7 @@ router.post('/login', function(req, res, next) {
                 
             } else {
                 //checks if the password entered on the form matches to the account that is found
+                //https://github.com/kelektiv/node.bcrypt.js
                 bcrypt.compare(loginPassword, doc.password, function (err, valid) {
                     //checks if the found passwords are correct
                     if (valid == true) {
@@ -169,7 +171,7 @@ router.post('/sport', function(req, res, next) {
 });
 
 //WALL
-
+//https://docs.mongodb.com/manual/reference/operator/
 //get the current logged in users results
 router.get('/wall', function(req, res, next) {
 
@@ -183,20 +185,6 @@ router.get('/wall', function(req, res, next) {
             res.json(docs);
         });
         console.log('Fitness results found in Mongo :D');
-        db.close();
-    });
-
-});
-
-//get every users results
-router.get('/wall/all', function(req, res, next) {
-
-    MongoClient.connect(url, function (err, db) {
-        var col = db.collection('fitness-results');
-        col.find({}).toArray(function (err, docs) {
-            res.json(docs);
-        });
-        console.log('All fitness results found in Mongo :D');
         db.close();
     });
 
@@ -297,7 +285,7 @@ router.post('/wall/wow/:id', function(req, res, next) {
 
 //USER ACCOUNT
 
-
+//https://mongodb.github.io/node-mongodb-native/api-bson-generated/objectid
 router.delete('/account/delete/:id', function(req, res, next) {
 
     MongoClient.connect(url, function (err, db) {
