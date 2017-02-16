@@ -17,7 +17,7 @@ export class WallComponent implements OnInit {
   public firstName: String;
   public token = '';
   public results: any = [];
-  
+
   public filterUser: Boolean;
   public filterState: String;
 
@@ -36,9 +36,9 @@ export class WallComponent implements OnInit {
       this.firstName = user.firstname;
       this.email = user.email;
       this.token = user.token;
-      
+
       this.filerUsers();
-      
+
     }
     this.retrieveFitnessResults();
   }
@@ -63,24 +63,13 @@ export class WallComponent implements OnInit {
       headers.append('Authorization', this.token);
       let options = new RequestOptions({headers: headers});
 
-      if (this.filterUser) {
-        this.http.get('http://localhost:8000/wall', options)
-          .map(res => res.json())
-          .subscribe(
-            posts => {
-              this.results = posts
-              console.log(this.results[0].waypoints[0]);
-            });
-      } else {
-        this.http.get('http://localhost:8000/wall/all', options)
-          .map(res => res.json())
-          .subscribe(
-            posts => {
-              this.results = posts
-              console.log(this.results[0].waypoints[0]);
-            });
-      }
-     
+      this.http.get('http://localhost:8000/wall', options)
+        .map(res => res.json())
+        .subscribe(
+          posts => {
+            this.results = posts
+            console.log(this.results[0].waypoints[0]);
+          });
   }
 
   deleteFitnessResult(id: string)
@@ -101,24 +90,24 @@ export class WallComponent implements OnInit {
       let headers = new Headers();
       headers.append('Authorization', this.token);
       let options = new RequestOptions({headers: headers});
-  
+
       this.http.post('http://localhost:8000/wall/wow/'+id, this.sport, options)
         .subscribe( ( response : Response ) => {
-  
+
         });
   }
-  
+
   filerUsers()
   {
       this.filterUser = !this.filterUser;
-    
+
       if (this.filterUser) {
           this.filterState = "Show Everyone "
       } else {
           this.filterState = "Just show " + this.firstName;
       }
   }
-  
+
 
   showUser()
   {
